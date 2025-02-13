@@ -1,3 +1,4 @@
+//
 let botao1EL = document.querySelector('.botao1');
 let BogaograndaoEL = document.querySelector('.bogagrandao');
 let comprasEL = document.querySelector('.compras');
@@ -18,46 +19,61 @@ botao1EL.addEventListener("click", function () {
     }
 });
 
+
+//menu de escolhas
 let escolherCompras = {
-    "instrumentos-menu": document.querySelector(".instrumentos"),
-    "fundos-menu": document.querySelector(".fundos"),
-    "bixos-menu": document.querySelector(".bixos-malucos")
+    "instrumentos-menu": document.querySelector("#instrumentos"),
+    "fundos-menu": document.querySelector("#fundos"),
+    "bixos-menu": document.querySelector("#bixos-malucos")
 };
 
-Object.keys(escolherCompras).forEach(menuID => {
+Object.keys(escolherCompras).forEach(menuID => { //francisco me ensinou muito mal, não entendi nada :/
     let botao = document.querySelector(`#${menuID}`);
     botao.addEventListener("click", function () {
         Object.values(escolherCompras).forEach(aba => aba.style.display = "none");
-        escolherCompras[menuID].style.display = "block";
+        escolherCompras[menuID].style.display = "grid";
+        escolherCompras[menuID].style.gridTemplateColumns= "auto auto auto";
+        escolherCompras[menuID].style.gridTemplateRows= "auto auto";
     });
 });
 
-let produtos = document.querySelectorAll(".compras .produto");
-let body = document.querySelector("body");
+
+
+//compras 
+let bodyEL=document.querySelector('body');
+let produtos = document.querySelectorAll(".produto");
+let backgrounds = [
+    "url('imgs/jardimBIZARRO.png')",
+    "url('imgs/campusVarginha.jpg')",
+    "url('imgs/inferno.jpg')"
+];
+let cadeadoEl = document.querySelectorAll(".cadeado");
 
 produtos.forEach(produto => {
+    
+    let nome = produto.dataset.nome;
+    let item = produto.dataset.tipo;
+    let preco = produto.dataset.preco;
+    let cadeado = produto.dataset.cadeado;
+
     produto.addEventListener("click", function () {
-        let preco = parseInt(produto.getAttribute("data-preco")); 
-        let nome = produto.getAttribute("data-nome"); 
-        let item = produto.getAttribute("data-adquirido"); 
+        console.log(cadeadoEl[cadeado]);
         if (produto.classList.contains("bloqueado")) {
             if (pontos >= preco) 
                 {
                 pontos -= preco;
                 pontosDisplay.textContent = pontos;
                 produto.classList.remove("bloqueado");
+                cadeadoEl[cadeado].style.display = "none";
             } 
             else {
-                alert("POBRE HAHAHAHAHA");
+                alert("POBRE HAHAHAHAH");
             }
         }
-        else if (item === "fundo") {
-            if (body.classList.contains(nome)) {
-                body.classList.remove(nome);
-            } 
-            else {
-                body.classList.add(nome);
-            }
+         else if (item == "fundo")
+        {
+            let imagem = backgrounds[nome];
+            bodyEL.style.backgroundImage = imagem;
         }
         else if (item === "bixos") {
             let bixosDoidosEL = document.querySelector(`.imagem.${nome}`);
@@ -67,6 +83,7 @@ produtos.forEach(produto => {
             else {
                 bixosDoidosEL.style.display = "none";
             }
-        }
+        } 
+        
     });
 });
