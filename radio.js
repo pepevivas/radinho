@@ -1,4 +1,4 @@
-//
+
 let botao1EL = document.querySelector('.botao1');
 let BogaograndaoEL = document.querySelector('.bogagrandao');
 let comprasEL = document.querySelector('.compras');
@@ -45,9 +45,12 @@ let produtos = document.querySelectorAll(".produto");
 let backgrounds = [
     "url('imgs/jardimBIZARRO.png')",
     "url('imgs/campusVarginha.jpg')",
-    "url('imgs/inferno.jpg')"
+    "url('imgs/inferno.jpg')",
+    "url('imgs/camposverdejantes.jpg')",
+    "url('imgs/STEVE.jpg')"
 ];
 let cadeadoEl = document.querySelectorAll(".cadeado");
+let mensagem = document.querySelectorAll(".multiplicador");
 
 produtos.forEach(produto => {
     
@@ -55,7 +58,6 @@ produtos.forEach(produto => {
     let item = produto.dataset.tipo;
     let preco = produto.dataset.preco;
     let cadeado = produto.dataset.cadeado;
-
     produto.addEventListener("click", function () {
         console.log(cadeadoEl[cadeado]);
         if (produto.classList.contains("bloqueado")) {
