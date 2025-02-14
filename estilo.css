@@ -12,8 +12,8 @@ body {
     font-family: "Soulway", sans-serif;
     background-color: white;
     background-repeat: no-repeat;
-    background-size: cover;
-    background-position: top;
+    background-size: 100% 100%;
+    background-position: center;
     background-attachment: fixed;
     color: rgba(255, 231, 185, 255);
 }
