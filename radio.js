@@ -5,11 +5,11 @@ let BogaograndaoEL = document.querySelector('.bogagrandao');
 let comprasEL = document.querySelector('.compras');
 let multiplicador = 1;
 let pontos;
-
+let instrumentosEL=document.querySelectorAll('.audioinstrumento');
 BogaograndaoEL.addEventListener("click", function () {
     pontos += multiplicador;
     pontosDisplay.textContent = pontos;
-    let burro=new Audio('audio/vineboom.mp3');
+    let burro=new Audio('audio/metal-pipe-clang.mp3');
     burro.play();
 });
 
@@ -62,7 +62,6 @@ produtos.forEach(produto => {
     let modificador = produto.dataset.multiplicado;
     let cadeado = produto.dataset.cadeado;
     produto.addEventListener("click", function () {
-        console.log(cadeadoEL[cadeado]);
         if (produto.classList.contains("bloqueado")) {
             if (pontos >= preco) {
                 pontos -= preco;
@@ -101,12 +100,37 @@ produtos.forEach(produto => {
             if (bixosDoidosEL.style.display === "none" || bixosDoidosEL.style.display === "") {
                 multiplicador *= modificador;
                 bixosDoidosEL.style.display = "block";
+                if(nome=='esqueleto')
+                {
+                    let temp=new Audio('audio/rizz-sound-effect.mp3');
+                    temp.play();
+                }
+                if(nome=='radiohead')
+                {
+                    let temp=new Audio('audio/solta-a-carta-tigrinho.mp3');
+                    temp.play();
+                }
+                if(nome=='carrinho')
+                {
+                    let temp=new Audio('audio/derrapa.mp3');
+                    temp.play()
+                }
             }
             else {
                 multiplicador /= modificador;
                 bixosDoidosEL.style.display = "none";
             }
-
+        }
+        else if(item== 'instrumentos')
+        {
+            if(instrumentosEL[cadeado].muted==true)
+            {
+            instrumentosEL[cadeado].muted=false;
+            }
+            else
+            {
+                instrumentosEL[cadeado].muted=true;
+            }
         }
 
     });
@@ -142,4 +166,13 @@ if (localStorage.getItem('compras'))
             cadeadoEL[temp.dataset.cadeado].style.display = 'none';
         }
     }
+}
+//musica
+
+
+for(let instrumento of instrumentosEL)
+{
+    instrumento.play();
+    instrumento.loop=true;
+    instrumento.muted=true;
 }
