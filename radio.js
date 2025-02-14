@@ -5,11 +5,11 @@ let BogaograndaoEL = document.querySelector('.bogagrandao');
 let comprasEL = document.querySelector('.compras');
 let multiplicador = 1;
 let pontos;
-let instrumentosEL=document.querySelectorAll('.audioinstrumento');
+let instrumentosEL = document.querySelectorAll('.audioinstrumento');
 BogaograndaoEL.addEventListener("click", function () {
     pontos += multiplicador;
     pontosDisplay.textContent = pontos;
-    let burro=new Audio('audio/metal-pipe-clang.mp3');
+    let burro = new Audio('audio/metal-pipe-clang.mp3');
     burro.play();
 });
 
@@ -67,7 +67,7 @@ produtos.forEach(produto => {
                 pontos -= preco;
                 pontosDisplay.textContent = pontos;
                 produto.classList.remove("bloqueado");
-                let good=new Audio('audio/extremely-loud-correct-buzzer.mp3');
+                let good = new Audio('audio/extremely-loud-correct-buzzer.mp3');
                 good.play();
                 cadeadoEL[cadeado].style.display = "none";
                 //salvar a compra do produto
@@ -84,12 +84,12 @@ produtos.forEach(produto => {
                 //salvar os pontos
                 localStorage.setItem('pontos', pontos);
             }
-            else {                
-                let pobre=new Audio('audio/lula-se-ta-caro-nao-compra.mp3');
-                window.alert("POBRE HAHAHAHAH");
+        }
+        if (produto.classList.contains('bloqueado')) {
+            let pobre = new Audio('audio/lula-se-ta-caro-nao-compra.mp3');
+            window.alert("POBRE HAHAHAHAH");
 
-                pobre.play();
-            }
+            pobre.play();
         }
         else if (item == "fundo") {
             let imagem = backgrounds[nome];
@@ -100,19 +100,16 @@ produtos.forEach(produto => {
             if (bixosDoidosEL.style.display === "none" || bixosDoidosEL.style.display === "") {
                 multiplicador *= modificador;
                 bixosDoidosEL.style.display = "block";
-                if(nome=='esqueleto')
-                {
-                    let temp=new Audio('audio/rizz-sound-effect.mp3');
+                if (nome == 'esqueleto') {
+                    let temp = new Audio('audio/rizz-sound-effect.mp3');
                     temp.play();
                 }
-                if(nome=='radiohead')
-                {
-                    let temp=new Audio('audio/solta-a-carta-tigrinho.mp3');
+                if (nome == 'radiohead') {
+                    let temp = new Audio('audio/solta-a-carta-tigrinho.mp3');
                     temp.play();
                 }
-                if(nome=='carrinho')
-                {
-                    let temp=new Audio('audio/derrapa.mp3');
+                if (nome == 'carrinho') {
+                    let temp = new Audio('audio/derrapa.mp3');
                     temp.play()
                 }
             }
@@ -121,15 +118,12 @@ produtos.forEach(produto => {
                 bixosDoidosEL.style.display = "none";
             }
         }
-        else if(item== 'instrumentos')
-        {
-            if(instrumentosEL[cadeado].muted==true)
-            {
-            instrumentosEL[cadeado].muted=false;
+        else if (item == 'instrumentos') {
+            if (instrumentosEL[cadeado].muted == true) {
+                instrumentosEL[cadeado].muted = false;
             }
-            else
-            {
-                instrumentosEL[cadeado].muted=true;
+            else {
+                instrumentosEL[cadeado].muted = true;
             }
         }
 
@@ -154,8 +148,7 @@ if (window.localStorage.getItem('produtos')) {
 }
 //carregar compra
 console.log(localStorage.getItem('compras'));
-if (localStorage.getItem('compras'))
-{
+if (localStorage.getItem('compras')) {
     console.log('fghjfh');
     comprasSalvas = localStorage.getItem('compras');
     comprasSalvas = JSON.parse(comprasSalvas);
@@ -170,9 +163,8 @@ if (localStorage.getItem('compras'))
 //musica
 
 
-for(let instrumento of instrumentosEL)
-{
+for (let instrumento of instrumentosEL) {
     instrumento.play();
-    instrumento.loop=true;
-    instrumento.muted=true;
+    instrumento.loop = true;
+    instrumento.muted = true;
 }
