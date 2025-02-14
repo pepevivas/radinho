@@ -4,7 +4,7 @@ let botao1EL = document.querySelector('.botao1');
 let BogaograndaoEL = document.querySelector('.bogagrandao');
 let comprasEL = document.querySelector('.compras');
 let multiplicador = 1;
-let pontos = 0;
+let pontos = 9999999;
 let instrumentosEL = document.querySelectorAll('.audioinstrumento');
 let tocada = 0;
 BogaograndaoEL.addEventListener("click", function () {
@@ -68,24 +68,11 @@ produtos.forEach(produto => {
         if (produto.classList.contains("bloqueado")) {
             if (pontos >= preco) {
                 pontos -= preco;
-                pontosDisplay.textContent = pontos;
+                pontosDisplay.textContent = pontos.toFixed(1);
                 produto.classList.remove("bloqueado");
                 let good = new Audio('audio/extremely-loud-correct-buzzer.mp3');
                 good.play();
                 cadeadoEL[cadeado].style.display = "none";
-                //salvar a compra do produto
-                for (let i = 0; i < produtos.length; i++) {
-                    if (produtos[i].classList.contains('bloqueado')) {
-                        comprasSalvas[i] = 0;
-                    }
-                    else {
-                        comprasSalvas[i] = 1;
-                    }
-
-                }
-                localStorage.setItem('compras', JSON.stringify(comprasSalvas));
-                //salvar os pontos
-                localStorage.setItem('pontos', pontos);
             }
         }
         if (produto.classList.contains('bloqueado')) {
@@ -95,6 +82,10 @@ produtos.forEach(produto => {
             pobre.play();
         }
         else if (item == "fundo") {
+            for (let produto of produtos) {
+                produto.classList.remove('equipado');
+            }
+            produto.classList.add('equipado');
             let imagem = backgrounds[nome];
             bodyEL.style.backgroundImage = imagem;
         }
@@ -123,11 +114,11 @@ produtos.forEach(produto => {
                     let temp = new Audio('audio/vineboom.mp3');
                     temp.play();
                 }
-                if(nome == 'AZULMAN'){
+                if (nome == 'AZULMAN') {
                     let temp = new Audio('audio/audio-novo-goofy.mov');
                     temp.play();
                 }
-                if(nome == 'giganteFM'){
+                if (nome == 'giganteFM') {
                     let temp = new Audio('audio/som-do-zap-zap-estourado.mp3');
                     temp.play();
                 }
@@ -140,7 +131,6 @@ produtos.forEach(produto => {
         else if (item == 'instrumentos') {
             let temp = instrumentosEL[cadeado];
             if (temp.muted == true) {
-                console.log(temp);
                 temp.muted = false;
             }
             else {
@@ -150,37 +140,6 @@ produtos.forEach(produto => {
 
     });
 });
-//salvar pontos
-BogaograndaoEL.addEventListener('click', () => {
-    window.localStorage.setItem('pontos', pontos);
-});
-//carregar pontos 
-if (window.localStorage.getItem('pontos')) {
-    pontos = parseInt(window.localStorage.getItem('pontos'));
-}
-else {
-    pontos = 0;
-}
-pontosDisplay.textContent = pontos;
-if (window.localStorage.getItem('produtos')) {
-    comprasSalvas = window.localStorage.getItem('produtos');
-    comprasSalvas = JSON.parse(comprasSalvas);
-    console.log(comprasSalvas);
-}
-//carregar compra
-console.log(localStorage.getItem('compras'));
-if (localStorage.getItem('compras')) {
-    console.log('fghjfh');
-    comprasSalvas = localStorage.getItem('compras');
-    comprasSalvas = JSON.parse(comprasSalvas);
-    for (let i = 0; i < comprasSalvas.length; i++) {
-        if (comprasSalvas[i] == 1) {
-            let temp = produtos[i];
-            temp.classList.remove('bloqueado');
-            cadeadoEL[temp.dataset.cadeado].style.display = 'none';
-        }
-    }
-}
 //musica
 
 
@@ -189,13 +148,119 @@ if (localStorage.getItem('compras')) {
 let botao2EL = document.querySelector('#botao2');
 let audiosEL = document.querySelector('audio');
 //tocar td
-function tocatd() {
-    for (let audiofodido of instrumentosEL) {
-        console.log(audiofodido);
-        audiofodido.play();
-        audiofodido.loop = true;
-        audiofodido.muted = true;
+function tocatd(produto) {
+    if (instrumentosEL[0].loop != true) {
+        for (let audiofodido of instrumentosEL) {
+            audiofodido.play();
+            audiofodido.loop = true;
+            audiofodido.muted = true;
+
+        }
+        if(produto)
+        {
+        instrumentosEL[produto.dataset.cadeado].muted=false;
+        }
     }
-    bodyEL.removeEventListener('click', tocatd);
 }
-bodyEL.addEventListener('click', tocatd);
+for (let produto of produtos) {
+    if (produto.dataset.tipo == 'instrumentos') {
+        produto.addEventListener('click', (e)=>{
+            tocatd(e.currentTarget);
+        });
+    }
+}
+//butao de salvar
+let salvarEL = document.querySelector('#salvar');
+let compras = [];
+salvarEL.addEventListener('click', () => {
+    localStorage.setItem('pontos', pontos);
+
+    for (let i = 0; i < produtos.length; i++) {
+        if (produtos[i].classList.contains('bloqueado')) {
+            compras[i] = 0;
+        }
+        else if (produtos[i].dataset.tipo == 'bixos') {
+            let bixosDoidosEL = document.querySelector(`.imagem.${produtos[i].dataset.nome}`);
+            if (bixosDoidosEL.style.display == 'block') {
+                compras[i] = 2;
+            }
+            else {
+                compras[i] = 1;
+            }
+        }
+        else if (produtos[i].dataset.tipo == 'fundo') {
+            console.log(backgrounds[produtos[i].dataset.nome]);
+            console.log(bodyEL.style.backgroundImage);
+            if (produtos[i].classList.contains('equipado')) {
+                compras[i] = 2;
+            }
+            else {
+                compras[i] = 1;
+            }
+        }
+        else if (produtos[i].dataset.tipo == 'instrumentos') {
+            if (instrumentosEL[produtos[i].dataset.cadeado].muted == true) {
+                compras[i] = 1;
+            }
+            else {
+                compras[i] = 2;
+            }
+        }
+    }
+    localStorage.setItem('compras', JSON.stringify(compras));
+});
+//butao de carregar
+let carregarEL = document.querySelector('#carregar');
+carregarEL.addEventListener('click', () => {
+    pontos = parseInt(localStorage.getItem('pontos'));
+    pontosDisplay.textContent = pontos.toFixed(1);
+    //reseta td              
+    bodyEL.style.backgroundImage = '';;
+    multiplicador = 1;
+    if (localStorage.getItem('compras')) {
+        compras = localStorage.getItem('compras');
+        compras = JSON.parse(compras);
+        for (let i = 0; i < compras.length; i++) {
+            let compra = compras[i];
+            let produto = produtos[i];
+            if (compra == 0) {
+                produto.classList.add('bloqueado');
+                cadeadoEL[produto.dataset.cadeado].style.display = ''
+            }
+            else {
+                produto.classList.remove('bloqueado');
+                cadeadoEL[produto.dataset.cadeado].style.display = 'none';
+            }
+            if (produto.dataset.tipo == 'bixos') {
+                let bixosDoidosEL = document.querySelector(`.imagem.${produto.dataset.nome}`);
+
+                if (compra != 2) {
+
+                    bixosDoidosEL.style.display = 'none';
+                }
+                else {
+                    bixosDoidosEL.style.display = 'block';
+                    multiplicador *= produto.dataset.multiplicado;
+                }
+            }
+            if (produto.dataset.tipo == 'fundo') {
+                if (compra == 2) {
+                    produto.classList.add('equipado');
+                    bodyEL.style.backgroundImage = backgrounds[produto.dataset.nome];
+                }
+            }
+            if (produto.dataset.tipo == 'instrumentos') {
+                let instrumento = instrumentosEL[i];
+                if (compra != 2) {
+
+                    instrumento.muted = true;
+                }
+                else {
+                    tocatd(null);
+                    instrumento.muted = false;
+
+                }
+            }
+        }
+    }
+});
