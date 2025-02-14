@@ -9,6 +9,8 @@ let pontos;
 BogaograndaoEL.addEventListener("click", function () {
     pontos += multiplicador;
     pontosDisplay.textContent = pontos;
+    let burro=new Audio('audio/vineboom.mp3');
+    burro.play();
 });
 
 botao1EL.addEventListener("click", function () {
@@ -66,6 +68,8 @@ produtos.forEach(produto => {
                 pontos -= preco;
                 pontosDisplay.textContent = pontos;
                 produto.classList.remove("bloqueado");
+                let good=new Audio('audio/extremely-loud-correct-buzzer.mp3');
+                good.play();
                 cadeadoEL[cadeado].style.display = "none";
                 //salvar a compra do produto
                 for (let i = 0; i < produtos.length; i++) {
@@ -78,9 +82,14 @@ produtos.forEach(produto => {
 
                 }
                 localStorage.setItem('compras', JSON.stringify(comprasSalvas));
+                //salvar os pontos
+                localStorage.setItem('pontos', pontos);
             }
-            else {
-                alert("POBRE HAHAHAHAH");
+            else {                
+                let pobre=new Audio('audio/lula-se-ta-caro-nao-compra.mp3');
+                window.alert("POBRE HAHAHAHAH");
+
+                pobre.play();
             }
         }
         else if (item == "fundo") {
