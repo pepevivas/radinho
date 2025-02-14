@@ -42,7 +42,7 @@ body {
 .radio .pontos-doidos {
     position: absolute;
     top: 24.6%;
-    left: 41%;
+    left: 52%;
     transform: translate(-50%, -50%) scale(0.3);
     font-size: 60px;
     color: rgb(0, 0, 0);
@@ -196,11 +196,17 @@ body {
     transform: translateX(-50%);
     display: none;
 }
-
 .imagem.DJ {
     display: none;
     position: absolute;
     top: 30%;
     left: 33%;
     transform: translateX(-50%) scale(0.2);
+}
+.imagem.alice{
+    display: none;
+    position: absolute;
+    top: -30%;
+    left: 70%;
+    transform: translateX(-50%) scale(0.1);
 }

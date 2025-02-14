@@ -4,14 +4,15 @@ let botao1EL = document.querySelector('.botao1');
 let BogaograndaoEL = document.querySelector('.bogagrandao');
 let comprasEL = document.querySelector('.compras');
 let multiplicador = 1;
-let pontos;
+let pontos = 0;
 let instrumentosEL = document.querySelectorAll('.audioinstrumento');
 let tocada = 0;
 BogaograndaoEL.addEventListener("click", function () {
     pontos += multiplicador;
-    pontosDisplay.textContent = pontos;
+    pontosDisplay.textContent = pontos.toFixed(1);
     let burro = new Audio('audio/metal-pipe-clang.mp3');
     burro.play();
+    burro.muted = true;
 });
 
 botao1EL.addEventListener("click", function () {
@@ -41,7 +42,6 @@ Object.keys(escolherCompras).forEach(menuID => { //francisco me ensinou muito ma
 });
 
 
-
 //compras 
 let bodyEL = document.querySelector('body');
 let produtos = document.querySelectorAll(".produto");
@@ -50,7 +50,9 @@ let backgrounds = [
     "url('imgs/campusVarginha.jpg')",
     "url('imgs/inferno.jpg')",
     "url('imgs/camposverdejantes.jpg')",
-    "url('imgs/STEVE.jpg')"
+    "url('imgs/STEVE.jpg')",
+    "url('imgs/sofrimento-da-alice.png')",
+    "url('imgs/FRANCISCO.jpg')"
 ];
 let cadeadoEL = document.querySelectorAll(".cadeado");
 let mensagem = document.querySelectorAll(".multiplicador");
@@ -105,8 +107,12 @@ produtos.forEach(produto => {
                     let temp = new Audio('audio/rizz-sound-effect.mp3');
                     temp.play();
                 }
+                if (nome == 'alice') {
+                    let temp = new Audio('audio/rizz-sound-effect.mp3');
+                    temp.play();
+                }
                 if (nome == 'radiohead') {
-                    let temp = new Audio('audio/solta-a-carta-tigrinho.mp3');
+                    let temp = new Audio('audio/solta-a-carta-tigrinho.mov');
                     temp.play();
                 }
                 if (nome == 'carrinho') {
@@ -117,6 +123,14 @@ produtos.forEach(produto => {
                     let temp = new Audio('audio/vineboom.mp3');
                     temp.play();
                 }
+                if(nome == 'AZULMAN'){
+                    let temp = new Audio('audio/audio-novo-goofy.mov');
+                    temp.play();
+                }
+                if(nome == 'giganteFM'){
+                    let temp = new Audio('audio/som-do-zap-zap-estourado.mp3');
+                    temp.play();
+                }
             }
             else {
                 multiplicador /= modificador;
@@ -124,11 +138,13 @@ produtos.forEach(produto => {
             }
         }
         else if (item == 'instrumentos') {
-            if (instrumentosEL[cadeado].muted == true) {
-                instrumentosEL[cadeado].muted = false;
+            let temp = instrumentosEL[cadeado];
+            if (temp.muted == true) {
+                console.log(temp);
+                temp.muted = false;
             }
             else {
-                instrumentosEL[cadeado].muted = true;
+                temp.muted = true;
             }
         }
 
@@ -173,12 +189,13 @@ if (localStorage.getItem('compras')) {
 let botao2EL = document.querySelector('#botao2');
 let audiosEL = document.querySelector('audio');
 //tocar td
-for (let produto of produtos) {
-    if (produto.dataset.tipo == 'instrumentos' && tocada == 0) {
-        for (let instrumento of instrumentosEL) {
-            instrumento.play();
-            instrumento.loop = true;
-            instrumento.muted = true;
-        }
+function tocatd() {
+    for (let audiofodido of instrumentosEL) {
+        console.log(audiofodido);
+        audiofodido.play();
+        audiofodido.loop = true;
+        audiofodido.muted = true;
     }
+    bodyEL.removeEventListener('click', tocatd);
 }
+bodyEL.addEventListener('click', tocatd);
