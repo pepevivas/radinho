@@ -6,6 +6,7 @@ let comprasEL = document.querySelector('.compras');
 let multiplicador = 1;
 let pontos;
 let instrumentosEL = document.querySelectorAll('.audioinstrumento');
+let tocada = 0;
 BogaograndaoEL.addEventListener("click", function () {
     pontos += multiplicador;
     pontosDisplay.textContent = pontos;
@@ -112,6 +113,10 @@ produtos.forEach(produto => {
                     let temp = new Audio('audio/derrapa.mp3');
                     temp.play()
                 }
+                if (nome == 'DJ') {
+                    let temp = new Audio('audio/vineboom.mp3');
+                    temp.play();
+                }
             }
             else {
                 multiplicador /= modificador;
@@ -163,8 +168,17 @@ if (localStorage.getItem('compras')) {
 //musica
 
 
-for (let instrumento of instrumentosEL) {
-    instrumento.play();
-    instrumento.loop = true;
-    instrumento.muted = true;
+
+//mutar td
+let botao2EL = document.querySelector('#botao2');
+let audiosEL = document.querySelector('audio');
+//tocar td
+for (let produto of produtos) {
+    if (produto.dataset.tipo == 'instrumentos' && tocada == 0) {
+        for (let instrumento of instrumentosEL) {
+            instrumento.play();
+            instrumento.loop = true;
+            instrumento.muted = true;
+        }
+    }
 }
